@@ -6,12 +6,14 @@ from cities.forms import CityForm
 __all__ = (
     'home',
     'CityDetailView',
-    'CityCreateView'
+    'CityCreateView',
+    'CityUpdateView',
+    'CityDeleteView'
 )
 
 from django.urls import reverse_lazy
 
-from django.views.generic import DetailView, CreateView
+from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
 
 
 def home(request):
@@ -34,3 +36,16 @@ class CityCreateView(CreateView):
     form_class = CityForm
     template_name = 'cities/create.html'
     success_url = reverse_lazy('cities:home')
+class CityUpdateView(UpdateView):
+    model = City
+    form_class = CityForm
+    template_name = 'cities/update.html'
+    success_url = reverse_lazy('cities:home')
+
+class CityDeleteView(DeleteView):
+    model = City
+    template_name = 'cities/delete.html'
+    success_url = reverse_lazy('cities:home')
+
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)

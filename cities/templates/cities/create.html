@@ -6,14 +6,6 @@
 
 {% block content %}
 <h1> Создание города </h1>
-<div class="row">
-    <div class="col-md-4">
-        <form action="" method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit"  class=" btn btn-primary" value="Отправить">
-        </form>
-    </div>
-</div>
+{% include 'form.hmtl' with button='Создать' %}
 {% endblock %}
 
