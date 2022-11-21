@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render
 
 from cities.models import City
@@ -24,7 +25,10 @@ def home(request):
             form.save()
     form = CityForm()
     qs = City.objects.all()
-    context = {'objects_list':qs, 'form':CityForm}
+    lst = Paginator(qs, 2)
+    page_number = request.GET.get('page')
+    page_obj = lst.get_page(page_number)
+    context = {'page_obj':page_obj, 'form':CityForm}
     return render(request, 'cities/home.html', context)
 
 class CityDetailView(DetailView):
@@ -44,7 +48,7 @@ class CityUpdateView(UpdateView):
 
 class CityDeleteView(DeleteView):
     model = City
-    template_name = 'cities/delete.html'
+    # template_name = 'cities/delete.html'
     success_url = reverse_lazy('cities:home')
 
     def get(self, request, *args, **kwargs):
